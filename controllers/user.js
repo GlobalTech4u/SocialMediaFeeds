@@ -1,4 +1,4 @@
-const User = require("../models/user");
+import User from "../models/user.js";
 
 const getAllUser = async (req, res) => {
   const users = await User.find({});
@@ -24,13 +24,10 @@ const addUser = async (req, res) => {
     email: body?.email,
     jobTitle: body?.job_title,
     gender: body?.gender,
+    password: body?.password,
   });
 
   return res?.status(201).json({ msg: "success" });
 };
 
-module.exports = {
-  getAllUser,
-  getUserById,
-  addUser,
-};
+export { getAllUser, getUserById, addUser };

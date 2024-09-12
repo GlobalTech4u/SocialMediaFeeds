@@ -1,19 +1,23 @@
-const express = require("express");
-const { connectMongoDB } = require("./connection");
+import express from "express";
+import connectMongoDB from "./connection.js";
 
-const { logReqRes } = require("./middlewares/log");
+import { logReqRes } from "./middlewares/log.js";
 
-const userRouter = require("./routes/user");
+import userRouter from "./routes/user.js";
+import postRouter from "./routes/post.js";
 
 const app = express();
 const PORT = 3000;
 
 const MONGO_DB_URL = "mongodb://127.0.0.1:27017/SMF";
-connectMongoDB(MONGO_DB_URL);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(logReqRes("./log.txt"));
 
 app.use("/api/user", userRouter);
+app.use("/api/post", postRouter);
 
-app.listen(PORT, () => console.log(`server started at port ${PORT}`));
+const server = app.listen(PORT, () =>
+  console.log(`server started at port ${PORT}`)
+);
+connectMongoDB(MONGO_DB_URL, server);
