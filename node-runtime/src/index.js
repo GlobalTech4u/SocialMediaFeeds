@@ -1,4 +1,8 @@
 import express from "express";
+import cors from "cors";
+import fileUpload from "express-fileupload";
+import dotenv from "dotenv";
+
 import connectMongoDB from "./connection.js";
 
 import { logReqRes } from "./middlewares/log.js";
@@ -6,12 +10,15 @@ import { logReqRes } from "./middlewares/log.js";
 import userRouter from "./routes/user.js";
 import postRouter from "./routes/post.js";
 
+dotenv.config({ path: "./environments/.env.local" });
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
+const MONGO_DB_URL = process.env.MONGO_DB_URL;
 
-const MONGO_DB_URL = "mongodb://127.0.0.1:27017/SMF";
-
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
 app.use(logReqRes("./log.txt"));
 
 app.use("/api/user", userRouter);

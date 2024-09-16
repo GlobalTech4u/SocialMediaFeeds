@@ -1,0 +1,14 @@
+.app {
+  display: flex;
+  margin: 16px;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.submit-button {
+  min-height: 32px;
+}
