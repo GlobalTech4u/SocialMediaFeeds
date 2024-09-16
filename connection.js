@@ -1,12 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-async function connectMongoDB(url) {
+async function connectMongoDB(url, server) {
   return mongoose
     .connect(url)
-    .then(() => console.log("=> mongodb connected"))
-    .catch((error) => console.log(error));
+    .then(() => console.log("mongodb connected"))
+    .catch((error) => {
+      console.log("mongodb connection failed ", error);
+      server.close(() => console.log("server closed"));
+    });
 }
 
-module.exports = {
-  connectMongoDB,
-};
+export default connectMongoDB;
