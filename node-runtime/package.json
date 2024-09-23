@@ -2,15 +2,20 @@
   "name": "socialmediafeeds",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index"
+    "start": "node src/index"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.20.0",
+    "express-fileupload": "^1.5.1",
     "mongoose": "^8.6.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
 }

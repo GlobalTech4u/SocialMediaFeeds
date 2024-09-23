@@ -1,2 +1,13 @@
-node_modules
-package-lock.json
+.vscode
+
+node-runtime/node_modules/
+node-runtime/dist/
+node-runtime/package-lock.json
+node-runtime/log.txt
+node-runtime/assets
+node-runtime/.env
+
+react-app/node_modules/
+react-app/build/
+react-app/package-lock.json
+react-app/environments
