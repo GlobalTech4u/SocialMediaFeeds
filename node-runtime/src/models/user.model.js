@@ -24,9 +24,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    profilePicture: {
-      type: String,
-    },
+    profilePicture: {},
     followers: {
       type: [String],
     },
@@ -39,6 +37,12 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.methods.verifyPassword = async function (password) {
+  const user = this;
+  const isMatch = await bcrypt.compare(password, user.password);
+  return isMatch;
+};
 
 const User = mongoose.model("user", userSchema);
 
