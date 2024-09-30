@@ -10,6 +10,10 @@
   width: 100%;
 }
 
+.MuiModal-backdrop {
+  background-color: unset !important;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -23,8 +27,7 @@
 }
 
 .app {
-  display: flex;
-  margin: 16px;
+  margin: 0;
 }
 
 .trial-btn {
@@ -72,4 +75,29 @@
 .footer-link {
   text-decoration: none;
   color: hsl(0, 100%, 60%);
+}
+
+.modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  border: 2px solid white;
+  background-color: white;
+}
+
+.modal-body {
+  margin: 24px;
+}
+
+.modal-title {
+  margin: 0;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 24px 0;
 }

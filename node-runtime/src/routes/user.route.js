@@ -4,10 +4,12 @@ import {
   getAllUser,
   getUserById,
   addUser,
+  getUsersBySearch,
+  followUser,
 } from "../controllers/user.controller.js";
 import { upload } from "../utils/multer.util.js";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router
   .route("/")
@@ -15,5 +17,7 @@ router
   .post(upload.single("profilePicture"), addUser);
 
 router.route("/:userId").get(getUserById);
+router.route("/:userId/follow").post(followUser);
+router.route("/search/:searchQuery").get(getUsersBySearch);
 
 export default router;

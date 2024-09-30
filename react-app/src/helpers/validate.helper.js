@@ -17,6 +17,7 @@ const validateLogin = (values) => {
 
 const validateRegister = (values) => {
   const errors = {};
+
   if (!values.firstName) {
     errors.firstName = "First Name cannot be empty";
   } else if (values.firstName.length > 15) {
@@ -48,4 +49,14 @@ const validateRegister = (values) => {
   return errors;
 };
 
-export { validateLogin, validateRegister };
+const validatePost = (values) => {
+  const errors = {};
+
+  if (!values.content && !values?.postAttachment) {
+    errors.content = "Please write your thoughts or upload a image";
+  }
+
+  return errors;
+};
+
+export { validateLogin, validateRegister, validatePost };

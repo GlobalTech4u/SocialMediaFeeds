@@ -1,0 +1,14 @@
+.share-post-container {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.view-post-container {
+  padding: 0 0;
+}
+
+.news-feeds {
+  width: 100%;
+}

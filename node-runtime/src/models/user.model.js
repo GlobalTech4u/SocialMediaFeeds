@@ -26,10 +26,10 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {},
     followers: {
-      type: [String],
+      type: [],
     },
     following: {
-      type: [String],
+      type: [],
     },
     blocked: {
       type: [String],

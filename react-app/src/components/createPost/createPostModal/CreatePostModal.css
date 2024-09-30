@@ -1,0 +1,27 @@
+.create-post-modal {
+  width: 560px;
+  height: 260px;
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.create-post-modal-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  padding: 24px;
+}
+
+.attachments-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.share-post-container {
+}

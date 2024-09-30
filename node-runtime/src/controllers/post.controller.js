@@ -1,9 +1,18 @@
+import path from "path";
+import fs from "fs";
+import { promisify } from "util";
+
 import Post from "../models/post.model.js";
+import User from "../models/user.model.js";
+import { cloudinary } from "../utils/cloudinary.util.js";
+
+const readFile = promisify(fs.readFile);
 
 const getAllUserPosts = async (req, res) => {
   const userId = req?.params?.userId;
 
   return await Post.find({ userId: userId })
+    .sort({ updatedAt: -1 })
     .then((posts) =>
       res?.status(200)?.json({
         posts: posts,
@@ -24,6 +33,7 @@ const getPostByPostId = async (req, res) => {
   // Implement the check to make sure the post is by user requesting the post
   const userId = req?.params?.userId;
   const postId = req?.params?.postId;
+
   return await Post.findById(postId)
     .then((post) =>
       res?.status(200)?.json({
@@ -47,11 +57,48 @@ const getLatestPostForFeeds = async (req, res) => {
 
 const addPost = async (req, res) => {
   const content = req?.body?.content;
-  const userId = req?.body?.userId;
+  const userId = req?.params?.userId;
 
-  await Post.create({
+  let postAttachments = [];
+
+  const user = await User?.findById(req?.params?.userId);
+
+  if (req.files) {
+    await Promise.all(
+      req?.files?.["postAttachments[]"]?.map(async (file) => {
+        const filePath = path.join(
+          "/SOCIALMEDIAFEEDS/node-runtime/assets",
+          file?.filename
+        );
+        const fileBuffer = await readFile(filePath);
+        const base64Image = fileBuffer.toString("base64");
+        let dataURI = "data:" + file.mimetype + ";base64," + base64Image;
+
+        await cloudinary.uploader
+          .upload(dataURI, {
+            resource_type: "auto",
+          })
+          .then((image) => {
+            postAttachments = [...postAttachments, image];
+          })
+          .catch((error) => {
+            return res?.status(400)?.json({
+              user: null,
+              error: error,
+              message: "failed to upload file",
+            });
+          });
+      })
+    );
+  }
+
+  return await Post.create({
     content: content,
     userId: userId,
+    documents: postAttachments,
+    profilePicture: user?.profilePicture,
+    firstName: user?.firstName,
+    lastName: user?.lastName,
   })
     .then((post) =>
       res?.status(201).json({ post: post, error: null, msg: "success" })
@@ -65,4 +112,24 @@ const addPost = async (req, res) => {
     );
 };
 
-export { getAllUserPosts, getPostByPostId, addPost };
+const deletePost = async (req, res) => {
+  const userId = req?.params?.userId;
+  const postId = req?.params?.postId;
+  return await Post.deleteOne({ _id: postId })
+    .then((result) => {
+      if (result?.acknowledged) {
+        return res
+          ?.status(204)
+          .json({ post: postId, error: null, msg: "delete success" });
+      }
+    })
+    .catch((error) => {
+      return res?.status(400).json({
+        post: null,
+        error: error,
+        msg: "Cannot delete post. Please try again later",
+      });
+    });
+};
+
+export { getAllUserPosts, getPostByPostId, addPost, deletePost };

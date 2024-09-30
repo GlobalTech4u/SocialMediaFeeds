@@ -4,10 +4,11 @@ const postSchema = new mongoose.Schema(
   {
     content: { type: String },
     userId: { type: String },
+    profilePicture: {},
+    firstName: { type: String },
+    lastName: { type: String },
     likedBy: [String],
-    document: {
-      type: String,
-    },
+    documents: [],
     comments: [
       {
         user: { type: String },

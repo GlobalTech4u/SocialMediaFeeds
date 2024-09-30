@@ -1,0 +1,20 @@
+.profile-container {
+  width: 100%;
+}
+
+.profile-body-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.share-post-container {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.view-post-container {
+  padding: 0 0;
+  width: min-content;
+}
