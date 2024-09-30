@@ -1,11 +1,21 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useFormik } from "formik";
-import { TextField, Select, MenuItem, Input, Alert } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
+import { FileUploader } from "react-drag-drop-files";
+
+import { TextField, Select, MenuItem, Alert } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import FormControl from "@mui/material/FormControl";
 
 import { AuthContext } from "../authContext/AuthContext";
-import { createUser } from "../../services/auth.service";
+import { createUser } from "../../services/user.service";
 import { validateRegister } from "../../helpers/validate.helper";
+import { fileTypes } from "../../constants/common.constant";
 import "./SignUp.css";
 
 const BACKGROUND_IMAGE_URL =
@@ -13,6 +23,7 @@ const BACKGROUND_IMAGE_URL =
 
 const SignUp = () => {
   const { token } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const submitSignUpForm = async (values) => {
@@ -35,8 +46,8 @@ const SignUp = () => {
       .catch((error) => console.log(error));
   };
 
-  const handleProfilePictureUpload = (event) => {
-    formik.setFieldValue("profilePicture", event?.target?.files[0]);
+  const handleProfilePictureUpload = (file) => {
+    formik.setFieldValue("profilePicture", file);
   };
 
   const formik = useFormik({
@@ -62,6 +73,11 @@ const SignUp = () => {
     return <Navigate to="/" replace />;
   }
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => event.preventDefault();
+  const handleMouseUpPassword = (event) => event.preventDefault();
+
   return (
     <div className="sign-up-container">
       <div className="left-container">
@@ -85,7 +101,9 @@ const SignUp = () => {
             onChange={handleChange}
           />
           {formik.errors.firstName ? (
-            <Alert severity="error">{formik.errors.firstName}</Alert>
+            <Alert className="error" severity="error">
+              {formik.errors.firstName}
+            </Alert>
           ) : null}
           <TextField
             id="lastName"
@@ -95,7 +113,9 @@ const SignUp = () => {
             onChange={handleChange}
           />
           {formik.errors.lastName ? (
-            <Alert severity="error">{formik.errors.lastName}</Alert>
+            <Alert className="error" severity="error">
+              {formik.errors.lastName}
+            </Alert>
           ) : null}
           <TextField
             id="email"
@@ -106,30 +126,69 @@ const SignUp = () => {
             onChange={handleChange}
           />
           {formik.errors.email ? (
-            <Alert severity="error">{formik.errors.email}</Alert>
+            <Alert className="error" severity="error">
+              {formik.errors.email}
+            </Alert>
           ) : null}
-          <TextField
-            id="password"
-            label="Password"
-            autoComplete="password"
-            type="password"
-            required={true}
-            value={values?.password}
-            onChange={handleChange}
-          />
+          <FormControl className="password-field" variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={values?.password}
+              onChange={handleChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    onMouseUp={handleMouseUpPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
           {formik.errors.password ? (
-            <Alert severity="error">{formik.errors.password}</Alert>
+            <Alert className="error" severity="error">
+              {formik.errors.password}
+            </Alert>
           ) : null}
-          <TextField
-            id="confirmPassword"
-            label="Confirm Password"
-            autoComplete="confirm-password"
-            required={true}
-            value={values?.confirmPassword}
-            onChange={handleChange}
-          />
+          <FormControl className="password-field" variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Confirm Password
+            </InputLabel>
+            <OutlinedInput
+              id="confirmPassword"
+              type={showPassword ? "text" : "password"}
+              value={values?.confirmPassword}
+              onChange={handleChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    onMouseUp={handleMouseUpPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Confirm Password"
+            />
+          </FormControl>
           {formik.errors.confirmPassword ? (
-            <Alert severity="error">{formik.errors.confirmPassword}</Alert>
+            <Alert className="error" severity="error">
+              {formik.errors.confirmPassword}
+            </Alert>
           ) : null}
           <Select
             id="gender"
@@ -147,7 +206,9 @@ const SignUp = () => {
             <MenuItem value={"other"}>Other</MenuItem>
           </Select>
           {formik.errors.gender ? (
-            <Alert severity="error">{formik.errors.gender}</Alert>
+            <Alert className="error" severity="error">
+              {formik.errors.gender}
+            </Alert>
           ) : null}
           <TextField
             id="jobTitle"
@@ -157,12 +218,17 @@ const SignUp = () => {
             onChange={handleChange}
           />
           {formik.errors.jobTitle ? (
-            <Alert severity="error">{formik.errors.jobTitle}</Alert>
+            <Alert className="error" severity="error">
+              {formik.errors.jobTitle}
+            </Alert>
           ) : null}
-          <Input
-            type="file"
+          <FileUploader
+            classes="profile-picture-upload"
+            multiple={false}
+            handleChange={handleProfilePictureUpload}
             name="profilePicture"
-            onChange={handleProfilePictureUpload}
+            types={fileTypes}
+            maxSize={12}
           />
           <button
             type="submit"

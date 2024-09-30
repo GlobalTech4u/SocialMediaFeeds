@@ -1,0 +1,21 @@
+.post-card {
+  position: relative;
+}
+
+.post-card-content {
+  margin-bottom: 64px;
+}
+
+.post-card-footer {
+  position: absolute;
+  bottom: 8px;
+}
+
+.post-card-attachments {
+  display: flex;
+  flex-direction: row;
+  row-gap: 8px;
+  column-gap: 8px;
+  padding: 8px;
+  flex-wrap: wrap;
+}

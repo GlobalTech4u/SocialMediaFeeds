@@ -8,6 +8,34 @@ import { cloudinary } from "../utils/cloudinary.util.js";
 
 const readFile = promisify(fs.readFile);
 
+const getUsersBySearch = async (req, res) => {
+  const searchQuery = req?.params?.searchQuery;
+
+  return await User?.find({
+    $or: [
+      {
+        firstName: { $regex: searchQuery, $options: "i" },
+      },
+      {
+        lastName: { $regex: searchQuery, $options: "i" },
+      },
+      {
+        email: { $regex: searchQuery, $options: "i" },
+      },
+    ],
+  })
+    .then((users) =>
+      res?.status(200)?.json({ users: users, error: null, message: "" })
+    )
+    .catch((error) =>
+      res?.status(400)?.json({
+        users: null,
+        error: error,
+        message: "Something went wrong. Please try again later",
+      })
+    );
+};
+
 const getAllUser = async (req, res) => {
   return await User?.find({})
     .then((users) =>
@@ -23,7 +51,7 @@ const getAllUser = async (req, res) => {
 };
 
 const getUserById = async (req, res) => {
-  return await User?.findById(req?.params?.userId)
+  return await User?.findById({ _id: req?.params?.userId })
     .then((user) =>
       res?.status(200)?.json({ user: user, error: null, message: "" })
     )
@@ -91,4 +119,36 @@ const addUser = async (req, res) => {
     );
 };
 
-export { getAllUser, getUserById, addUser };
+const followUser = async (req, res) => {
+  const userId = req?.params?.userId;
+  const userIdToFollow = req?.body?.userId;
+  const userToFollow = await User?.findById({ _id: userIdToFollow });
+
+  User?.updateOne(
+    { _id: userId },
+    {
+      $push: {
+        following: {
+          _id: userToFollow?._id,
+          firstName: userToFollow?.firstName,
+          lastName: userToFollow?.lastName,
+        },
+      },
+      $currentDate: { lastUpdated: true },
+    }
+  )
+    .then((user) =>
+      res?.status(200)?.json({
+        user: user,
+        error: null,
+        message: "user updated successfully",
+      })
+    )
+    .catch((error) =>
+      res
+        ?.status(400)
+        ?.json({ user: null, error: error, message: "failed to update user" })
+    );
+};
+
+export { getAllUser, getUserById, addUser, getUsersBySearch, followUser };

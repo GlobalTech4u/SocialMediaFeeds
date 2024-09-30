@@ -1,72 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import PersonIcon from "@mui/icons-material/Person";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import MailIcon from "@mui/icons-material/Mail";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MoreIcon from "@mui/icons-material/MoreVert";
 import {
+  Avatar,
   AppBar,
   Badge,
   Box,
   IconButton,
+  Input,
   Toolbar,
   Typography,
-  InputBase,
   Menu,
   MenuItem,
 } from "@mui/material";
 
-import { styled, alpha } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
-
 import { AuthContext } from "../authContext/AuthContext";
 import { logout } from "../../helpers/auth.helper";
+import { getUser } from "../../helpers/user.helper";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
+import "./Navbar.css";
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
-
-const NavBar = () => {
+const Navbar = (props) => {
   const { setToken } = useContext(AuthContext);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  const { toggleDrawer, onSearch, firstName, profilePicture } = props;
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -91,7 +57,15 @@ const NavBar = () => {
   const onLogout = () => {
     setToken("");
     logout();
+    handleMenuClose();
   };
+
+  const navigateToProfile = () => {
+    navigate("/profile");
+    handleMenuClose();
+  };
+
+  const navigateToHome = () => navigate("/");
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -110,8 +84,30 @@ const NavBar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={onLogout}>Logout</MenuItem>
+      <MenuItem onClick={navigateToProfile}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <Avatar src={profilePicture} />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={onLogout}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p>Logout</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -152,7 +148,7 @@ const NavBar = () => {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={navigateToProfile}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -160,16 +156,28 @@ const NavBar = () => {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar sx={{ width: 24, height: 24 }} src={profilePicture} />
         </IconButton>
-        <p>Profile</p>
+        <p>{firstName}</p>
+      </MenuItem>
+      <MenuItem onClick={onLogout}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p>Logout</p>
       </MenuItem>
     </Menu>
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box className="nav-bar-container" sx={{ flexGrow: 1 }} tabIndex={100}>
+      <AppBar>
         <Toolbar>
           <IconButton
             size="large"
@@ -177,6 +185,7 @@ const NavBar = () => {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={toggleDrawer}
           >
             <MenuIcon />
           </IconButton>
@@ -185,20 +194,34 @@ const NavBar = () => {
             noWrap
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
+            onClick={navigateToHome}
+            className="cursor-pointer"
           >
-            SMF
+            Social Media App
           </Typography>
-          <Search>
-            <SearchIconWrapper>
+          <Box sx={{ flexGrow: 1 }} />
+          <div className="search">
+            <div className="search-icon-wrapper">
               <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
+            </div>
+            <Input
+              className="styled-input-base"
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={onSearch}
             />
-          </Search>
+          </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge badgeContent={1} color="error">
+                <PersonIcon />
+              </Badge>
+            </IconButton>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
@@ -226,7 +249,7 @@ const NavBar = () => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={profilePicture} />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -249,4 +272,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;

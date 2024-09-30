@@ -17,3 +17,16 @@
   flex: 0 1 40%;
   overflow: hidden;
 }
+
+.profile-picture-upload {
+  width: calc(100% - 24px);
+}
+
+.password-field {
+  width: 100%;
+  margin: 0;
+}
+
+.error {
+  width: calc(100% - 32px);
+}
