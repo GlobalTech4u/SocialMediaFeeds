@@ -24,6 +24,7 @@ dotenv.config({ path: "./environments/.env.local" });
 const app = express();
 const PORT = process.env.PORT;
 const MONGO_DB_URL = process.env.MONGO_DB_URL;
+// const SOCKET_IO_CLIENT_URL = process.env.SOCKET_IO_CLIENT_URL;
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -42,7 +43,7 @@ const server = app.listen(PORT, () =>
 connectMongoDB(MONGO_DB_URL, server);
 
 const io = new Server(server, {
-  cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] },
+  cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
 io.on("connection", (socket) => {
