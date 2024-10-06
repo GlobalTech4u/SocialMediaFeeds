@@ -11,7 +11,7 @@ import CreatePostModal from "./createPostModal/CreatePostModal";
 import "./CreatePost.css";
 
 const CreatePost = (props) => {
-  const { getPosts, profilePicture, userId, name } = props;
+  const { getPosts, profilePicture, userId, name, followers } = props;
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
 
   const onShowCreatePostModal = () => setShowCreatePostModal(true);
@@ -64,6 +64,7 @@ const CreatePost = (props) => {
           onHideCreatePostModal={onHideCreatePostModal}
           userId={userId}
           name={name}
+          followers={followers}
         />
       </CardActions>
     </Card>

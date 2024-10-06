@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@mui/material";
 
-import { getUserById, onfollowUser } from "../../services/user.service";
+import {
+  getUserById,
+  followUser,
+  unfollowUser,
+} from "../../services/user.service";
 import { getFullName, getUser } from "../../helpers/user.helper";
 
 import "./User.css";
@@ -16,10 +20,9 @@ const User = () => {
   const [posts, setPosts] = useState([]);
 
   const getPosts = () => {
-    const user = getUser();
-    setUser(user);
-    user?._id &&
-      fetchPostsByUserId({ userId: user?._id })
+    const userId = search.get("userId");
+    userId &&
+      fetchPostsByUserId({ userId: userId })
         .then((res) => {
           const posts = res?.data?.posts;
           setPosts(posts);
@@ -31,7 +34,7 @@ const User = () => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [search]);
 
   useEffect(() => {
     const user = getUser();
@@ -56,7 +59,24 @@ const User = () => {
       userId: openedUser?._id,
     };
 
-    onfollowUser(user?._id, payload)
+    followUser(user?._id, payload)
+      .then((res) => {
+        if (res?.status === 200) {
+          getUserById({ userId: user?._id }).then((res) => {
+            setUser(res?.data?.user);
+            localStorage.setItem("user", JSON.stringify(res?.data?.user));
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const onUnfollow = () => {
+    const payload = {
+      userId: openedUser?._id,
+    };
+
+    unfollowUser(user?._id, payload)
       .then((res) => {
         if (res?.status === 200) {
           getUserById({ userId: user?._id }).then((res) => {
@@ -102,7 +122,10 @@ const User = () => {
           </div>
           <div className="user-profile-actions">
             {isFollowing ? (
-              <Button className="user-profile-action-button" onClick={() => {}}>
+              <Button
+                className="user-profile-action-button"
+                onClick={onUnfollow}
+              >
                 Unfollow
               </Button>
             ) : (

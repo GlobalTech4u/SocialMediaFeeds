@@ -1,6 +1,6 @@
 .posts-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   column-gap: 24px;
   row-gap: 24px;

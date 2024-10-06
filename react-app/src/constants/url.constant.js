@@ -6,6 +6,8 @@ const URLS_CONSTANT = {
   user: BASE_URL + "api/users/{userId}",
   users_search: BASE_URL + "api/users/search/{searchQuery}",
   user_follow: BASE_URL + "api/users/{userId}/follow",
+  user_unfollow: BASE_URL + "api/users/{userId}/unfollow",
+  news_feeds: BASE_URL + "api/users/{userId}/posts/newsfeed",
   posts: BASE_URL + "api/users/{userId}/posts",
   post: BASE_URL + "api/users/{userId}/posts/{postId}",
 };

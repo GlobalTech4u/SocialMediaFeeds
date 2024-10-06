@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 import { ClickAwayListener, Modal } from "@mui/material";
 
 import Navbar from "../navBar/Navbar";
 import Sidebar from "../sidebar/Sidebar";
+import RightBar from "../rightBar/RightBar";
 import UserCard from "../userCard/UserCard";
 import useDebounce from "../../hooks/useDebounce";
 import { getUser } from "../../helpers/user.helper";
@@ -12,17 +13,23 @@ import { getUsers } from "../../services/user.service";
 import { AuthContext } from "../authContext/AuthContext";
 
 import "./Home.css";
-import RightBar from "../rightBar/RightBar";
 
 const Home = () => {
-  const { token, loading } = useContext(AuthContext);
-  const [showDrawer, setShowDrawer] = useState(false);
+  const { isLoggedIn, loading } = useContext(AuthContext);
+  const [showDrawer, setShowDrawer] = useState(true);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState("");
+  const navigate = useNavigate();
 
   const debouncedSearchQuery = useDebounce(searchQuery);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const user = getUser();
@@ -48,19 +55,15 @@ const Home = () => {
       : onHideSearchResults();
   }, [debouncedSearchQuery]);
 
-  if (loading) {
-    return null;
-  }
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
   const toggleDrawer = () => setShowDrawer(!showDrawer);
 
   const onSearch = (event) => {
     setSearchQuery(event?.target?.value || "");
   };
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className="home-container">
@@ -69,6 +72,7 @@ const Home = () => {
         onSearch={onSearch}
         firstName={user?.firstName}
         profilePicture={user?.profilePicture?.url}
+        onShowSearchResults={onShowSearchResults}
       />
       <div className="home-body-container">
         <Sidebar showDrawer={showDrawer} />
@@ -83,7 +87,7 @@ const Home = () => {
           <ClickAwayListener onClickAway={onHideSearchResults}>
             <Modal
               className="search-results-container"
-              open={showSearchResults}
+              open={showSearchResults && users?.length > 0}
               onClose={onHideSearchResults}
             >
               <>

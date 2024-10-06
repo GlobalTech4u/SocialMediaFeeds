@@ -3,9 +3,10 @@ import { useFormik } from "formik";
 import { TextField, Alert } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 
+import initializeSocket from "../../utils/socket";
+import initializeAxios from "../../services/axios.service";
 import { loginUser } from "../../services/auth.service";
 import { AuthContext } from "../authContext/AuthContext";
-
 import { validateLogin } from "../../helpers/validate.helper";
 import "./Login.css";
 
@@ -29,11 +30,13 @@ const Login = () => {
           setToken(user?.token);
           localStorage.setItem("user", JSON.stringify(user));
           navigate("/");
+          initializeAxios(user?.token);
+          initializeSocket(user?._id);
         }
       })
       .catch((err) => {
         setToken("");
-        localStorage.removeItem("token");
+        localStorage.removeItem("user");
       });
   };
 

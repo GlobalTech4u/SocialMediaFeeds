@@ -5,7 +5,7 @@ node-runtime/dist/
 node-runtime/package-lock.json
 node-runtime/log.txt
 node-runtime/assets
-node-runtime/.env
+node-runtime/environments
 
 react-app/node_modules/
 react-app/build/

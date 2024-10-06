@@ -52,7 +52,33 @@ const getPostByPostId = async (req, res) => {
 };
 
 const getLatestPostForFeeds = async (req, res) => {
-  // Implement the logic to get latest feeds from the people in users folloing list
+  const userId = req?.params?.userId;
+  if (userId && userId !== "undefined") {
+    const user = await User?.findById(userId);
+
+    const followingUsersIds = user?.following?.map(
+      (following) => following?._id
+    );
+
+    return await Post?.find({ userId: { $in: followingUsersIds } })
+      .sort({ updatedAt: -1 })
+      .then((posts) =>
+        res?.status(200).json({ posts: posts, error: null, msg: "success" })
+      )
+      .catch((error) =>
+        res?.status(400).json({
+          posts: null,
+          error: error,
+          msg: "Cannot get latest feeds. Please try again later",
+        })
+      );
+  }
+
+  return res?.status(400).json({
+    posts: null,
+    error: {},
+    msg: "Cannot get latest feeds. Please try again later",
+  });
 };
 
 const addPost = async (req, res) => {
@@ -67,7 +93,7 @@ const addPost = async (req, res) => {
     await Promise.all(
       req?.files?.["postAttachments[]"]?.map(async (file) => {
         const filePath = path.join(
-          "/SOCIALMEDIAFEEDS/node-runtime/assets",
+          "/Projects/SOCIALMEDIAFEEDS/node-runtime/assets",
           file?.filename
         );
         const fileBuffer = await readFile(filePath);
@@ -132,4 +158,10 @@ const deletePost = async (req, res) => {
     });
 };
 
-export { getAllUserPosts, getPostByPostId, addPost, deletePost };
+export {
+  getAllUserPosts,
+  getPostByPostId,
+  addPost,
+  deletePost,
+  getLatestPostForFeeds,
+};
