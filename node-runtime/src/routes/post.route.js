@@ -5,6 +5,7 @@ import {
   getPostByPostId,
   addPost,
   deletePost,
+  getLatestPostForFeeds,
 } from "../controllers/post.controller.js";
 import { upload } from "../utils/multer.util.js";
 
@@ -14,6 +15,8 @@ router
   .route("/")
   .get(getAllUserPosts)
   .post(upload.fields([{ name: "postAttachments[]", maxCount: 12 }]), addPost);
+
+router.route("/newsfeed").get(getLatestPostForFeeds);
 
 router.route("/:postId").get(getPostByPostId).delete(deletePost);
 

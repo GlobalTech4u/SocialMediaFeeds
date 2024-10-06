@@ -68,7 +68,7 @@ const addUser = async (req, res) => {
 
   if (req.file) {
     const filePath = path.join(
-      "/SOCIALMEDIAFEEDS/node-runtime/assets",
+      "/Projects/SOCIALMEDIAFEEDS/node-runtime/assets",
       req?.file?.filename
     );
     const fileBuffer = await readFile(filePath);
@@ -122,21 +122,37 @@ const addUser = async (req, res) => {
 const followUser = async (req, res) => {
   const userId = req?.params?.userId;
   const userIdToFollow = req?.body?.userId;
+  const user = await User?.findById({ _id: userId });
   const userToFollow = await User?.findById({ _id: userIdToFollow });
 
-  User?.updateOne(
-    { _id: userId },
-    {
-      $push: {
-        following: {
-          _id: userToFollow?._id,
-          firstName: userToFollow?.firstName,
-          lastName: userToFollow?.lastName,
+  Promise.all([
+    User?.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          following: {
+            _id: userToFollow?._id,
+            firstName: userToFollow?.firstName,
+            lastName: userToFollow?.lastName,
+          },
         },
-      },
-      $currentDate: { lastUpdated: true },
-    }
-  )
+        $currentDate: { lastUpdated: true },
+      }
+    ),
+    User?.updateOne(
+      { _id: userIdToFollow },
+      {
+        $push: {
+          followers: {
+            _id: user?._id,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+          },
+        },
+        $currentDate: { lastUpdated: true },
+      }
+    ),
+  ])
     .then((user) =>
       res?.status(200)?.json({
         user: user,
@@ -151,4 +167,59 @@ const followUser = async (req, res) => {
     );
 };
 
-export { getAllUser, getUserById, addUser, getUsersBySearch, followUser };
+const unfollowUser = async (req, res) => {
+  const userId = req?.params?.userId;
+  const userIdToUnfollow = req?.body?.userId;
+  const user = await User?.findById({ _id: userId });
+  const userToUnfollow = await User?.findById({ _id: userIdToUnfollow });
+
+  Promise.all([
+    User?.updateOne(
+      { _id: userId },
+      {
+        $pull: {
+          following: {
+            _id: userToUnfollow?._id,
+            firstName: userToUnfollow?.firstName,
+            lastName: userToUnfollow?.lastName,
+          },
+        },
+        $currentDate: { lastUpdated: true },
+      }
+    ),
+    User?.updateOne(
+      { _id: userIdToUnfollow },
+      {
+        $pull: {
+          followers: {
+            _id: user?._id,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+          },
+        },
+        $currentDate: { lastUpdated: true },
+      }
+    ),
+  ])
+    .then((user) =>
+      res?.status(200)?.json({
+        user: user,
+        error: null,
+        message: "user updated successfully",
+      })
+    )
+    .catch((error) =>
+      res
+        ?.status(400)
+        ?.json({ user: null, error: error, message: "failed to update user" })
+    );
+};
+
+export {
+  getAllUser,
+  getUserById,
+  addUser,
+  getUsersBySearch,
+  followUser,
+  unfollowUser,
+};

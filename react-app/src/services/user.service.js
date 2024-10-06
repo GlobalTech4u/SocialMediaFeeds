@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "./axios.service";
 
 import { URLS_CONSTANT } from "../constants/url.constant";
 
@@ -20,8 +20,8 @@ const getUserById = async (payload) => {
   return axios.get(URLS_CONSTANT.user.replace("{userId}", payload?.userId));
 };
 
-const onfollowUser = async (userId, payload) => {
-  return axios.post(
+const followUser = async (userId, payload) => {
+  return axios.put(
     URLS_CONSTANT.user_follow.replace("{userId}", userId),
     payload,
     {
@@ -30,4 +30,14 @@ const onfollowUser = async (userId, payload) => {
   );
 };
 
-export { createUser, getUsers, getUserById, onfollowUser };
+const unfollowUser = async (userId, payload) => {
+  return axios.put(
+    URLS_CONSTANT.user_unfollow.replace("{userId}", userId),
+    payload,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }
+  );
+};
+
+export { createUser, getUsers, getUserById, followUser, unfollowUser };

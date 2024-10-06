@@ -60,7 +60,11 @@ const PostCard = (props) => {
   const userName = getFullName(post.firstName, post.lastName);
 
   return (
-    <Card className="post-card" sx={{ width: 482 }}>
+    <Card
+      className="post-card"
+      sx={{ width: 482 }}
+      key={`post-card-${post?._id}`}
+    >
       <CardHeader
         avatar={
           <Avatar
@@ -70,44 +74,46 @@ const PostCard = (props) => {
           />
         }
         action={
-          <div>
-            <IconButton
-              aria-label="more"
-              id="long-button"
-              aria-controls={open ? "long-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="long-menu"
-              MenuListProps={{
-                "aria-labelledby": "long-button",
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              slotProps={{
-                paper: {
-                  style: {
-                    maxHeight: ITEM_HEIGHT * 4.5,
-                    width: "20ch",
+          userId === post?.userId && (
+            <div>
+              <IconButton
+                aria-label="more"
+                id="long-button"
+                aria-controls={open ? "long-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="long-menu"
+                MenuListProps={{
+                  "aria-labelledby": "long-button",
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                slotProps={{
+                  paper: {
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 4.5,
+                      width: "20ch",
+                    },
                   },
-                },
-              }}
-            >
-              {options.map((option) => (
-                <MenuItem
-                  key={option}
-                  onClick={() => handleSubMenuClick(option)}
-                >
-                  {option}
-                </MenuItem>
-              ))}
-            </Menu>
-          </div>
+                }}
+              >
+                {options.map((option) => (
+                  <MenuItem
+                    key={option}
+                    onClick={() => handleSubMenuClick(option)}
+                  >
+                    {option}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </div>
+          )
         }
         title={userName}
         subheader={moment(post?.updatedAt).format("YYYY/MM/DD kk:mm")}
@@ -115,7 +121,12 @@ const PostCard = (props) => {
       <div className="post-card-attachments">
         {post?.documents?.map((document) => {
           return (
-            <CardMedia component="img" image={document?.url} alt="post-image" />
+            <CardMedia
+              key={`post-card-media-${document?.asset_id}`}
+              component="img"
+              image={document?.url}
+              alt="post-image"
+            />
           );
         })}
       </div>

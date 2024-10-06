@@ -6,6 +6,7 @@ import {
   addUser,
   getUsersBySearch,
   followUser,
+  unfollowUser,
 } from "../controllers/user.controller.js";
 import { upload } from "../utils/multer.util.js";
 
@@ -17,7 +18,8 @@ router
   .post(upload.single("profilePicture"), addUser);
 
 router.route("/:userId").get(getUserById);
-router.route("/:userId/follow").post(followUser);
+router.route("/:userId/follow").put(followUser);
+router.route("/:userId/unfollow").put(unfollowUser);
 router.route("/search/:searchQuery").get(getUsersBySearch);
 
 export default router;

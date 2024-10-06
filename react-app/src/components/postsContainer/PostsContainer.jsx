@@ -10,7 +10,14 @@ const PostsContainer = (props) => {
   return (
     <div className="posts-container">
       {posts?.map((post) => {
-        return <PostCard post={post} userId={userId} getPosts={getPosts} />;
+        return (
+          <PostCard
+            post={post}
+            userId={userId}
+            getPosts={getPosts}
+            key={`post-container-${post?._id}`}
+          />
+        );
       })}
     </div>
   );

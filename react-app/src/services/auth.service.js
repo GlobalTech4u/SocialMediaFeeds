@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "./axios.service";
 
 import { URLS_CONSTANT } from "../constants/url.constant";
 

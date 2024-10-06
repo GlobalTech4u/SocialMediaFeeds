@@ -10,4 +10,7 @@ async function connectMongoDB(url, server) {
     });
 }
 
+const db = mongoose.connection;
+
+export { db };
 export default connectMongoDB;

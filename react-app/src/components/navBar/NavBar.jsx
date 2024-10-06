@@ -23,7 +23,6 @@ import {
 
 import { AuthContext } from "../authContext/AuthContext";
 import { logout } from "../../helpers/auth.helper";
-import { getUser } from "../../helpers/user.helper";
 
 import "./Navbar.css";
 
@@ -32,7 +31,13 @@ const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
-  const { toggleDrawer, onSearch, firstName, profilePicture } = props;
+  const {
+    toggleDrawer,
+    onSearch,
+    firstName,
+    profilePicture,
+    onShowSearchResults,
+  } = props;
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -209,6 +214,7 @@ const Navbar = (props) => {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
               onChange={onSearch}
+              onClick={onShowSearchResults}
             />
           </div>
           <Box sx={{ flexGrow: 1 }} />

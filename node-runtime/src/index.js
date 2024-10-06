@@ -4,10 +4,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 // import { fileURLToPath } from "url";
 // import path from "path";
+import { Server } from "socket.io";
 
 import connectMongoDB from "./connection.js";
 
-import { logReqRes } from "./middlewares/log.js";
+import { logReqRes } from "./middlewares/log.middleware.js";
+import { authenticateUser } from "./middlewares/auth.middleware.js";
 
 import userRouter from "./routes/user.route.js";
 import postRouter from "./routes/post.route.js";
@@ -27,7 +29,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 // app.use(fileUpload());
 app.use(logReqRes("./log.txt"));
-
+app.use("/api/users/*", authenticateUser);
 // app.use("/images", express.static(__assets));
 
 app.use("/api/auth", authRouter);
@@ -38,3 +40,23 @@ const server = app.listen(PORT, () =>
   console.log(`server started at port ${PORT}`)
 );
 connectMongoDB(MONGO_DB_URL, server);
+
+const io = new Server(server, {
+  cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] },
+});
+
+io.on("connection", (socket) => {
+  console.log(`a user connected `, socket?.handshake?.query?.userId);
+
+  if (
+    socket?.handshake?.query?.userId &&
+    socket?.handshake?.query?.userId !== "undefined"
+  ) {
+    console.log("=> user joining ", socket?.handshake?.query?.userId);
+    socket.join(socket?.handshake?.query?.userId);
+
+    socket.on("add_post", ({ userId, followers }) => {
+      socket.to(followers).emit("post_added", { userId: userId });
+    });
+  }
+});

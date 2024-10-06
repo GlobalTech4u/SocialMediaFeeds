@@ -1,6 +1,6 @@
 import multer from "multer";
 
-const DESTINATION_PATH = "/SOCIALMEDIAFEEDS/node-runtime/assets";
+const DESTINATION_PATH = "/Projects/SOCIALMEDIAFEEDS/node-runtime/assets";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

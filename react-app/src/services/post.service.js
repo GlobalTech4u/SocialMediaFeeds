@@ -1,9 +1,15 @@
-import axios from "axios";
+import { axios } from "./axios.service";
 
 import { URLS_CONSTANT } from "../constants/url.constant";
 
 const fetchPostsByUserId = async (payload) => {
   return axios.get(URLS_CONSTANT.posts.replace("{userId}", payload?.userId));
+};
+
+const fetchNewsFeeds = async (payload) => {
+  return axios.get(
+    URLS_CONSTANT.news_feeds.replace("{userId}", payload?.userId)
+  );
 };
 
 const deletePost = async (payload) => {
@@ -22,4 +28,4 @@ const sharePost = async (userId, payload) => {
   });
 };
 
-export { fetchPostsByUserId, sharePost, deletePost };
+export { fetchPostsByUserId, sharePost, deletePost, fetchNewsFeeds };
