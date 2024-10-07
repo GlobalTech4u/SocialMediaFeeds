@@ -1,12 +1,6 @@
 import * as React from "react";
 
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Avatar,
-  Typography,
-} from "@mui/material";
+import { Card, CardHeader, CardContent, Avatar } from "@mui/material";
 
 import "./RightBar.css";
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import PostCard from "../postCard/PostCard";
+import PostCard from "components/postCard/PostCard";
 
 import "./PostsContainer.css";
 

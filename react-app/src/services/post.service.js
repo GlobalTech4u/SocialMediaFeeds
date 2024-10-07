@@ -1,6 +1,6 @@
-import { axios } from "./axios.service";
+import { axios } from "services/axios.service";
 
-import { URLS_CONSTANT } from "../constants/url.constant";
+import { URLS_CONSTANT } from "constants/url.constant";
 
 const fetchPostsByUserId = async (payload) => {
   return axios.get(URLS_CONSTANT.posts.replace("{userId}", payload?.userId));

@@ -12,10 +12,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import FormControl from "@mui/material/FormControl";
 
-import { AuthContext } from "../authContext/AuthContext";
-import { createUser } from "../../services/user.service";
-import { validateRegister } from "../../helpers/validate.helper";
-import { fileTypes } from "../../constants/common.constant";
+import { AuthContext } from "components/authContext/AuthContext";
+import { createUser } from "services/user.service";
+import { validateRegister } from "helpers/validate.helper";
+import { fileTypes } from "constants/common.constant";
+
 import "./SignUp.css";
 
 const BACKGROUND_IMAGE_URL =

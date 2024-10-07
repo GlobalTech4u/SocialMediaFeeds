@@ -1,7 +1,9 @@
 import * as React from "react";
-import { Avatar, Card, CardContent, Typography } from "@mui/material";
-import { getFullName } from "../../helpers/user.helper";
 import { useNavigate } from "react-router-dom";
+
+import { Avatar, Card, CardContent, Typography } from "@mui/material";
+
+import { getFullName } from "helpers/user.helper";
 
 import "./UserCard.css";
 

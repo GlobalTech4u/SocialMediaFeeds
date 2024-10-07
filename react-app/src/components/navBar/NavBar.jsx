@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import PersonIcon from "@mui/icons-material/Person";
@@ -21,10 +21,10 @@ import {
   MenuItem,
 } from "@mui/material";
 
-import { AuthContext } from "../authContext/AuthContext";
-import { logout } from "../../helpers/auth.helper";
+import { AuthContext } from "components/authContext/AuthContext";
+import { logout } from "helpers/auth.helper";
 
-import "./Navbar.css";
+import "./NavBar.css";
 
 const Navbar = (props) => {
   const { setToken } = useContext(AuthContext);

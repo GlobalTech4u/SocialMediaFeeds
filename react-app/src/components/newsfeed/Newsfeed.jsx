@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { socket } from "../../utils/socket";
 
-import CreatePost from "../createPost/CreatePost";
-import PostsContainer from "../postsContainer/PostsContainer";
-import { getFullName, getUser } from "../../helpers/user.helper";
-import { fetchNewsFeeds } from "../../services/post.service";
+import CreatePost from "components/createPost/CreatePost";
+import PostsContainer from "components/postsContainer/PostsContainer";
+import { socket } from "utils/socket";
+import { fetchNewsFeeds } from "services/post.service";
+import { getFullName, getUser } from "helpers/user.helper";
 
 import "./Newsfeed.css";
 

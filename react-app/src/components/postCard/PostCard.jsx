@@ -15,12 +15,13 @@ import {
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
-import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+// import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+// import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { getFullName } from "../../helpers/user.helper";
-import { deletePost } from "../../services/post.service";
+
+import { getFullName } from "helpers/user.helper";
+import { deletePost } from "services/post.service";
 
 import "./PostCard.css";
 

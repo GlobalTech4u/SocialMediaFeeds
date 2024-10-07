@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import { socket } from "../../../utils/socket";
+import { socket } from "utils/socket";
 
 import { Avatar, Button, Modal } from "@mui/material";
 import { red } from "@mui/material/colors";
@@ -10,8 +10,9 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import Textarea from "@mui/joy/Textarea";
 
-import { sharePost } from "../../../services/post.service";
-import { fileTypes } from "../../../constants/common.constant";
+import { sharePost } from "services/post.service";
+import { fileTypes } from "constants/common.constant";
+
 import "./CreatePostModal.css";
 
 const CreatePostModal = (props) => {

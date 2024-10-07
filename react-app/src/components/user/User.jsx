@@ -2,16 +2,12 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@mui/material";
 
-import {
-  getUserById,
-  followUser,
-  unfollowUser,
-} from "../../services/user.service";
-import { getFullName, getUser } from "../../helpers/user.helper";
+import PostsContainer from "components/postsContainer/PostsContainer";
+import { fetchPostsByUserId } from "services/post.service";
+import { getFullName, getUser } from "helpers/user.helper";
+import { getUserById, followUser, unfollowUser } from "services/user.service";
 
 import "./User.css";
-import PostsContainer from "../postsContainer/PostsContainer";
-import { fetchPostsByUserId } from "../../services/post.service";
 
 const User = () => {
   const [search] = useSearchParams();

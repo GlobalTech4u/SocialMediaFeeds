@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import { ClickAwayListener, Modal } from "@mui/material";
 
-import Navbar from "../navBar/Navbar";
-import Sidebar from "../sidebar/Sidebar";
-import RightBar from "../rightBar/RightBar";
-import UserCard from "../userCard/UserCard";
-import useDebounce from "../../hooks/useDebounce";
-import { getUser } from "../../helpers/user.helper";
-import { getUsers } from "../../services/user.service";
-import { AuthContext } from "../authContext/AuthContext";
+import Navbar from "components/navBar/NavBar";
+import Sidebar from "components/sidebar/Sidebar";
+import RightBar from "components/rightBar/RightBar";
+import UserCard from "components/userCard/UserCard";
+import { AuthContext } from "components/authContext/AuthContext";
+import useDebounce from "hooks/useDebounce";
+import { getUser } from "helpers/user.helper";
+import { getUsers } from "services/user.service";
 
 import "./Home.css";
 

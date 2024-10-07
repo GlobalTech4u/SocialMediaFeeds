@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 
-import PostsContainer from "../postsContainer/PostsContainer";
-import CreatePost from "../createPost/CreatePost";
-import { AuthContext } from "../authContext/AuthContext";
-import { fetchPostsByUserId } from "../../services/post.service";
-import { getFullName, getUser } from "../../helpers/user.helper";
+import PostsContainer from "components/postsContainer/PostsContainer";
+import CreatePost from "components/createPost/CreatePost";
+import { AuthContext } from "components/authContext/AuthContext";
+import { fetchPostsByUserId } from "services/post.service";
+import { getFullName, getUser } from "helpers/user.helper";
 
 import "./Profile.css";
 

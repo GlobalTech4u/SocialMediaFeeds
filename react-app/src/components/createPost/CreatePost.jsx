@@ -7,7 +7,8 @@ import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 
-import CreatePostModal from "./createPostModal/CreatePostModal";
+import CreatePostModal from "components/createPost/createPostModal/CreatePostModal";
+
 import "./CreatePost.css";
 
 const CreatePost = (props) => {

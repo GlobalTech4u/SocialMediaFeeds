@@ -3,11 +3,12 @@ import { useFormik } from "formik";
 import { TextField, Alert } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import initializeSocket from "../../utils/socket";
-import initializeAxios from "../../services/axios.service";
-import { loginUser } from "../../services/auth.service";
-import { AuthContext } from "../authContext/AuthContext";
-import { validateLogin } from "../../helpers/validate.helper";
+import initializeSocket from "utils/socket";
+import initializeAxios from "services/axios.service";
+import { loginUser } from "services/auth.service";
+import { AuthContext } from "components/authContext/AuthContext";
+import { validateLogin } from "helpers/validate.helper";
+
 import "./Login.css";
 
 const BACKGROUND_IMAGE_URL =
