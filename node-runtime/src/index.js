@@ -29,6 +29,7 @@ const CLIENT_APP_URL = process.env.CLIENT_APP_URL;
 // const SOCKET_IO_CLIENT_URL = process.env.SOCKET_IO_CLIENT_URL;
 
 app.use(cors({ origin: "*" }));
+app.options("*", cors());
 // app.use(
 //   cors({
 //     origin: CLIENT_APP_URL,
