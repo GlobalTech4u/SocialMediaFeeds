@@ -26,7 +26,13 @@ const PORT = process.env.PORT;
 const MONGO_DB_URL = process.env.MONGO_DB_URL;
 // const SOCKET_IO_CLIENT_URL = process.env.SOCKET_IO_CLIENT_URL;
 
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   next();
