@@ -35,6 +35,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 app.options("*", cors());
 // app.use(
 //   cors({
@@ -43,17 +44,18 @@ app.options("*", cors());
 //     allowedHeaders: ["Content-Type", "Authorization"],
 //   })
 // );
-// app.use(function (req, res, next) {
-//   res.setHeader("Access-Control-Allow-Credentials", true);
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Methods", "GET,PATCH,DELETE,POST,PUT");
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-//   );
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,PATCH,DELETE,POST,PUT");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
 
-//   next();
-// });
+  next();
+});
+
 app.use(express.urlencoded({ extended: true }));
 // app.use(fileUpload());
 app.use(logReqRes("./log.txt"));
