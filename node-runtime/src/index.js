@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 // import { fileURLToPath } from "url";
 // import path from "path";
 import { Server } from "socket.io";
+import http from "http";
 
 import connectMongoDB from "./connection.js";
 
@@ -56,7 +57,9 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/users/:userId/posts", postRouter);
 
-const server = app.listen(PORT, () =>
+const httpServer = http.createServer(app);
+
+const server = httpServer.listen(PORT, () =>
   console.log(`server started at port ${PORT}`)
 );
 connectMongoDB(MONGO_DB_URL, server);
