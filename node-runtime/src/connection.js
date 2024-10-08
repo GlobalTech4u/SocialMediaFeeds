@@ -1,8 +1,13 @@
 import mongoose from "mongoose";
 
 async function connectMongoDB(url, server) {
+  const options = {
+    serverSelectionTimeoutMS: 6000,
+    socketTimeoutMS: 55000,
+  };
+
   return mongoose
-    .connect(url)
+    .connect(url, options)
     .then(() => console.log("mongodb connected"))
     .catch((error) => {
       console.log("mongodb connection failed ", error);
