@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 async function connectMongoDB(url, server) {
   const options = {
-    serverSelectionTimeoutMS: 6000,
-    socketTimeoutMS: 55000,
+    serverSelectionTimeoutMS: 10000,
+    socketTimeoutMS: 70000,
   };
 
   return mongoose
