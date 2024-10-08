@@ -66,8 +66,11 @@ const addUser = async (req, res) => {
   const body = req?.body;
   let profileImage;
 
+  console.log("=> file uploaded ", req?.file);
+
   if (req.file) {
-    const filePath = path.join("uploads", req?.file?.filename);
+    const __uploads = path.join(process.cwd(), "uploads");
+    const filePath = path.join(__uploads, req?.file?.filename);
     const fileBuffer = await readFile(filePath);
     const base64Image = fileBuffer.toString("base64");
     let dataURI = "data:" + req.file.mimetype + ";base64," + base64Image;

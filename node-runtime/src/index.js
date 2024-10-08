@@ -21,7 +21,8 @@ dotenv.config({ path: "./environments/.env.local" });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const __assets = path.join(__dirname, "../assets");
-const __uploads = path.join(__dirname, "../uploads");
+// const __uploads = path.join(__dirname, "../uploads");
+const __uploads = path.join(process.cwd(), "uploads");
 
 const app = express();
 const PORT = process.env.PORT;
