@@ -62,7 +62,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(logReqRes("./log.txt"));
 app.use("/api/users/*", authenticateUser);
 // app.use("/images", express.static(__assets));
-app.use("/uploads", express.static(__uploads));
+app.use(express.static(__uploads));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
