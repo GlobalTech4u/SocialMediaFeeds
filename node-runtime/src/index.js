@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 // import fileUpload from "express-fileupload";
 import dotenv from "dotenv";
-// import { fileURLToPath } from "url";
-// import path from "path";
+import { fileURLToPath } from "url";
+import path from "path";
 // import { Server } from "socket.io";
 import http from "http";
 
@@ -18,9 +18,10 @@ import authRouter from "./routes/auth.route.js";
 
 dotenv.config({ path: "./environments/.env.local" });
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // const __assets = path.join(__dirname, "../assets");
+const __uploads = path.join(__dirname, "../uploads");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -61,7 +62,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(logReqRes("./log.txt"));
 app.use("/api/users/*", authenticateUser);
 // app.use("/images", express.static(__assets));
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(__uploads));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
