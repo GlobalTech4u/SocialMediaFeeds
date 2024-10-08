@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { TextField, Alert } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import initializeSocket from "utils/socket";
+// import initializeSocket from "utils/socket";
 import initializeAxios from "services/axios.service";
 import { loginUser } from "services/auth.service";
 import { AuthContext } from "components/authContext/AuthContext";
@@ -32,7 +32,7 @@ const Login = () => {
           localStorage.setItem("user", JSON.stringify(user));
           navigate("/");
           initializeAxios(user?.token);
-          initializeSocket(user?._id);
+          // initializeSocket(user?._id);
         }
       })
       .catch((err) => {

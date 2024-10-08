@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import CreatePost from "components/createPost/CreatePost";
 import PostsContainer from "components/postsContainer/PostsContainer";
-import { socket } from "utils/socket";
+// import { socket } from "utils/socket";
 import { fetchNewsFeeds } from "services/post.service";
 import { getFullName, getUser } from "helpers/user.helper";
 
@@ -21,12 +21,12 @@ const Newsfeed = () => {
     getPosts();
   }, [user]);
 
-  useEffect(() => {
-    socket?.on("post_added", ({ userId }) => {
-      console.log(`post added by ${userId}`);
-      getPosts();
-    });
-  }, [socket]);
+  // useEffect(() => {
+  //   socket?.on("post_added", ({ userId }) => {
+  //     console.log(`post added by ${userId}`);
+  //     getPosts();
+  //   });
+  // }, [socket]);
 
   const getPosts = async (userId) => {
     user?._id &&

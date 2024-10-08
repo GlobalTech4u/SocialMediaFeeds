@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 // import { fileURLToPath } from "url";
 // import path from "path";
-import { Server } from "socket.io";
+// import { Server } from "socket.io";
 import http from "http";
 
 import connectMongoDB from "./connection.js";
@@ -74,22 +74,22 @@ const server = httpServer.listen(PORT, () =>
 );
 connectMongoDB(MONGO_DB_URL, server);
 
-const io = new Server(server, {
-  cors: { origin: "*", methods: ["GET", "POST"] },
-});
+// const io = new Server(server, {
+//   cors: { origin: "*", methods: ["GET", "POST"] },
+// });
 
-io.on("connection", (socket) => {
-  console.log(`a user connected `, socket?.handshake?.query?.userId);
+// io.on("connection", (socket) => {
+//   console.log(`a user connected `, socket?.handshake?.query?.userId);
 
-  if (
-    socket?.handshake?.query?.userId &&
-    socket?.handshake?.query?.userId !== "undefined"
-  ) {
-    console.log("=> user joining ", socket?.handshake?.query?.userId);
-    socket.join(socket?.handshake?.query?.userId);
+//   if (
+//     socket?.handshake?.query?.userId &&
+//     socket?.handshake?.query?.userId !== "undefined"
+//   ) {
+//     console.log("=> user joining ", socket?.handshake?.query?.userId);
+//     socket.join(socket?.handshake?.query?.userId);
 
-    socket.on("add_post", ({ userId, followers }) => {
-      socket.to(followers).emit("post_added", { userId: userId });
-    });
-  }
-});
+//     socket.on("add_post", ({ userId, followers }) => {
+//       socket.to(followers).emit("post_added", { userId: userId });
+//     });
+//   }
+// });

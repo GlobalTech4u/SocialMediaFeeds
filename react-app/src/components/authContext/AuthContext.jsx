@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 
-import initializeSocket from "../../utils/socket";
+// import initializeSocket from "../../utils/socket";
 import initializeAxios from "../../services/axios.service";
 import { getUser } from "../../helpers/user.helper";
 
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     setToken(user?.token || null);
     setIsLoggedIn(!!user?.token);
     setLoading(false);
-    initializeSocket(user?._id || null);
+    // initializeSocket(user?._id || null);
     initializeAxios(user?.token || null);
   }, [localStorage.getItem("user")]);
 

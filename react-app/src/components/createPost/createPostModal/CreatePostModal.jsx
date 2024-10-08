@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import { socket } from "utils/socket";
+// import { socket } from "utils/socket";
 
 import { Avatar, Button, Modal } from "@mui/material";
 import { red } from "@mui/material/colors";
@@ -53,10 +53,10 @@ const CreatePostModal = (props) => {
       sharePost(userId, payload)
         .then((res) => {
           if (res?.status === 201) {
-            socket?.emit("add_post", {
-              userId: userId,
-              followers: followers,
-            });
+            // socket?.emit("add_post", {
+            //   userId: userId,
+            //   followers: followers,
+            // });
             getPosts();
             onHideCreatePostModal();
           }
