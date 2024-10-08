@@ -9,7 +9,7 @@ import http from "http";
 
 import connectMongoDB from "./connection.js";
 
-import { logReqRes } from "./middlewares/log.middleware.js";
+// import { logReqRes } from "./middlewares/log.middleware.js";
 import { authenticateUser } from "./middlewares/auth.middleware.js";
 
 import userRouter from "./routes/user.route.js";
@@ -58,7 +58,7 @@ app.use(function (req, res, next) {
 
 app.use(express.urlencoded({ extended: true }));
 // app.use(fileUpload());
-app.use(logReqRes("./log.txt"));
+// app.use(logReqRes("./log.txt"));
 app.use("/api/users/*", authenticateUser);
 // app.use("/images", express.static(__assets));
 
