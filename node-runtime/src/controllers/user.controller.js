@@ -67,10 +67,7 @@ const addUser = async (req, res) => {
   let profileImage;
 
   if (req.file) {
-    const filePath = path.join(
-      "/Projects/SOCIALMEDIAFEEDS/node-runtime/assets",
-      req?.file?.filename
-    );
+    const filePath = path.join("uploads", req?.file?.filename);
     const fileBuffer = await readFile(filePath);
     const base64Image = fileBuffer.toString("base64");
     let dataURI = "data:" + req.file.mimetype + ";base64," + base64Image;

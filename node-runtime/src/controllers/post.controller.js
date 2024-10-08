@@ -92,10 +92,7 @@ const addPost = async (req, res) => {
   if (req.files) {
     await Promise.all(
       req?.files?.["postAttachments[]"]?.map(async (file) => {
-        const filePath = path.join(
-          "/Projects/SOCIALMEDIAFEEDS/node-runtime/assets",
-          file?.filename
-        );
+        const filePath = path.join("uploads", file?.filename);
         const fileBuffer = await readFile(filePath);
         const base64Image = fileBuffer.toString("base64");
         let dataURI = "data:" + file.mimetype + ";base64," + base64Image;
