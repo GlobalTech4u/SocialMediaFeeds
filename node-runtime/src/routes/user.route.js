@@ -19,10 +19,10 @@ router
   .post(function (req, res, next) {
     upload.single("profilePicture")(req, res, function (err) {
       if (err instanceof multer.MulterError) {
-        console.log(err);
+        console.log("=> multer error in upload ", err);
         return res.status(400).send(err);
       } else if (err) {
-        console.log(err);
+        console.log("=> error in upload ", err);
         return res.status(400).send(err);
       }
       console.log("=> profile picture uploaded successfully");
