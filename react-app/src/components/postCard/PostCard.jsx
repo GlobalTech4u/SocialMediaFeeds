@@ -71,7 +71,7 @@ const PostCard = (props) => {
           <Avatar
             sx={{ bgcolor: red[500] }}
             aria-label="recipe"
-            src={post?.profilePicture?.url}
+            src={post?.profilePicture?.path}
           />
         }
         action={
@@ -125,7 +125,7 @@ const PostCard = (props) => {
             <CardMedia
               key={`post-card-media-${document?.asset_id}`}
               component="img"
-              image={document?.url}
+              image={document?.path}
               alt="post-image"
             />
           );

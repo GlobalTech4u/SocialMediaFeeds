@@ -5,12 +5,10 @@ const authenticateUser = (req, res, next) => {
     const token = req?.headers?.authorization?.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
       if (error) {
-        console.log("=> authentication error");
         return res
           .status(403)
           .json({ error: error, message: "Authentication failed!" });
       }
-      console.log("=> authenticated");
       return next();
     });
   } else {

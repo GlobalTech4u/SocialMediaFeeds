@@ -48,7 +48,7 @@ const Newsfeed = () => {
       <div className="share-post-container">
         <CreatePost
           getPosts={() => {}}
-          profilePicture={user?.profilePicture?.url}
+          profilePicture={user?.profilePicture?.path}
           userId={user?._id}
           name={name}
           followers={followers}

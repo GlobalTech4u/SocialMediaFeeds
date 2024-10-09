@@ -71,7 +71,7 @@ const Home = () => {
         toggleDrawer={toggleDrawer}
         onSearch={onSearch}
         firstName={user?.firstName}
-        profilePicture={user?.profilePicture?.url}
+        profilePicture={user?.profilePicture?.path}
         onShowSearchResults={onShowSearchResults}
       />
       <div className="home-body-container">

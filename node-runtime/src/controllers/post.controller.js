@@ -85,35 +85,35 @@ const addPost = async (req, res) => {
   const content = req?.body?.content;
   const userId = req?.params?.userId;
 
-  let postAttachments = [];
+  const postAttachments = req?.files?.["postAttachments[]"] || [];
 
   const user = await User?.findById(req?.params?.userId);
 
-  if (req.files) {
-    await Promise.all(
-      req?.files?.["postAttachments[]"]?.map(async (file) => {
-        const filePath = path.join("uploads", file?.filename);
-        const fileBuffer = await readFile(filePath);
-        const base64Image = fileBuffer.toString("base64");
-        let dataURI = "data:" + file.mimetype + ";base64," + base64Image;
+  // if (req.files) {
+  //   await Promise.all(
+  //     req?.files?.["postAttachments[]"]?.map(async (file) => {
+  //       const filePath = path.join("uploads", file?.filename);
+  //       const fileBuffer = await readFile(filePath);
+  //       const base64Image = fileBuffer.toString("base64");
+  //       let dataURI = "data:" + file.mimetype + ";base64," + base64Image;
 
-        await cloudinary.uploader
-          .upload(dataURI, {
-            resource_type: "auto",
-          })
-          .then((image) => {
-            postAttachments = [...postAttachments, image];
-          })
-          .catch((error) => {
-            return res?.status(400)?.json({
-              user: null,
-              error: error,
-              message: "failed to upload file",
-            });
-          });
-      })
-    );
-  }
+  //       await cloudinary.uploader
+  //         .upload(dataURI, {
+  //           resource_type: "auto",
+  //         })
+  //         .then((image) => {
+  //           postAttachments = [...postAttachments, image];
+  //         })
+  //         .catch((error) => {
+  //           return res?.status(400)?.json({
+  //             user: null,
+  //             error: error,
+  //             message: "failed to upload file",
+  //           });
+  //         });
+  //     })
+  //   );
+  // }
 
   return await Post.create({
     content: content,

@@ -64,33 +64,33 @@ const getUserById = async (req, res) => {
 
 const addUser = async (req, res) => {
   const body = req?.body;
-  let profileImage = req?.file;
+  const profileImage = req?.file;
 
-  if (req.file) {
-    // const __uploads = path.join(process.cwd(), "uploads");
-    // const filePath = path.join(__uploads, req?.file?.filename);
-    // const fileBuffer = await readFile(filePath);
-    const fileBuffer = req?.file?.buffer;
-    const base64Image = fileBuffer.toString("base64");
-    let dataURI = "data:" + req.file.mimetype + ";base64," + base64Image;
+  // if (req.file) {
+  //   const __uploads = path.join(process.cwd(), "uploads");
+  //   const filePath = path.join(__uploads, req?.file?.filename);
+  //   const fileBuffer = await readFile(filePath);
+  //   const fileBuffer = req?.file?.buffer;
+  //   const base64Image = fileBuffer.toString("base64");
+  //   let dataURI = "data:" + req.file.mimetype + ";base64," + base64Image;
 
-    await cloudinary.uploader
-      .upload(dataURI, {
-        resource_type: "auto",
-        public_id: `${Date.now()}-${req?.file?.originalname}`,
-        display_name: req?.file?.originalname,
-      })
-      .then((image) => {
-        profileImage = image;
-      })
-      .catch((error) => {
-        return res?.status(400)?.json({
-          user: null,
-          error: error,
-          message: "failed to create user",
-        });
-      });
-  }
+  //   await cloudinary.uploader
+  //     .upload(dataURI, {
+  //       resource_type: "auto",
+  //       public_id: `${Date.now()}-${req?.file?.originalname}`,
+  //       display_name: req?.file?.originalname,
+  //     })
+  //     .then((image) => {
+  //       profileImage = image;
+  //     })
+  //     .catch((error) => {
+  //       return res?.status(400)?.json({
+  //         user: null,
+  //         error: error,
+  //         message: "failed to create user",
+  //       });
+  //     });
+  // }
 
   const password = body?.password;
 

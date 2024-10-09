@@ -95,7 +95,7 @@ const User = () => {
           <img
             className="user-profile-picture"
             aria-label="recipe"
-            src={openedUser?.profilePicture?.url}
+            src={openedUser?.profilePicture?.path}
             alt={`${openedUser?.firstName}-profile-picture`}
           />
         </div>

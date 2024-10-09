@@ -68,6 +68,9 @@ app.use(express.static(__uploads));
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/users/:userId/posts", postRouter);
+app.get("*", (req, res) => {
+  res.send("Welcome to Social Media Feeds APIs");
+});
 
 const httpServer = http.createServer(app);
 
@@ -87,7 +90,6 @@ connectMongoDB(MONGO_DB_URL, server);
 //     socket?.handshake?.query?.userId &&
 //     socket?.handshake?.query?.userId !== "undefined"
 //   ) {
-//     console.log("=> user joining ", socket?.handshake?.query?.userId);
 //     socket.join(socket?.handshake?.query?.userId);
 
 //     socket.on("add_post", ({ userId, followers }) => {

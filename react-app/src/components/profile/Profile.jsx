@@ -48,7 +48,7 @@ const Profile = () => {
         <div className="share-post-container">
           <CreatePost
             getPosts={getPosts}
-            profilePicture={user?.profilePicture?.url}
+            profilePicture={user?.profilePicture?.path}
             userId={user?._id}
             name={name}
           />

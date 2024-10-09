@@ -24,7 +24,7 @@ const UserCard = (props) => {
       key={`search-${user?._id}`}
     >
       <CardContent className="user-search-card-content">
-        <Avatar aria-label="recipe" src={user?.profilePicture?.url} />
+        <Avatar aria-label="recipe" src={user?.profilePicture?.path} />
         <Typography variant="body2" color="textSecondary">
           {getFullName(user?.firstName, user?.lastName)}
         </Typography>

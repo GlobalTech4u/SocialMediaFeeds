@@ -1,5 +1,5 @@
 import multer from "multer";
-// import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 import { cloudinary } from "./cloudinary.util.js";
 // import path from "path";
@@ -20,15 +20,16 @@ import { cloudinary } from "./cloudinary.util.js";
 //   },
 // });
 
-// const storage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
-//   params: {
-//     folder: "uploads",
-//     public_id: (req, file) => `${Date.now()}-${file.originalname}`,
-//   },
-// });
+// const storage = multer.memoryStorage();
 
-const storage = multer.memoryStorage();
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "uploads",
+    public_id: (req, file) =>
+      `${Date.now()}-${file.originalname.replace(/\.[^/.]+$/, "")}`,
+  },
+});
 
 const upload = multer({ storage: storage });
 
